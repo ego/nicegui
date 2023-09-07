@@ -14,7 +14,8 @@ ENV POETRY_VERSION=1.6.1 \
     POETRY_VIRTUALENVS_IN_PROJECT=1 \
     POETRY_VIRTUALENVS_CREATE=1 \
     POETRY_CACHE_DIR=/tmp/poetry_cache \
-    DISPLAY=:99
+    DISPLAY=:99 \
+    DEBIAN_FRONTEND=noninteractive
 
 # Create remote user
 RUN groupadd --gid $USER_GID $USERNAME \
@@ -28,7 +29,8 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # Install google chrome
 RUN wget -nv -O /tmp/chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb \
     && apt-get update && apt-get install -y /tmp/chrome.deb \
-    && rm /tmp/chrome.deb
+    && rm /tmp/chrome.deb \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install chromedriver to a PATH directory
 RUN wget -nv -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROME_VERSION}/linux64/chromedriver-linux64.zip \
